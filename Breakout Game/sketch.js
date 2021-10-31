@@ -1,16 +1,13 @@
-var paddle,ball,points;
+var paddle,ball;
 var edgeT,edgeR, edgeB,edgeL;
 
 function setup() {
   createCanvas(450, 400);
 
-  points = 0;
-
   //paddle sprite
   paddle = createSprite(280, 380, 100, 5);
   paddle.shapeColor = "black";
 
-  bricks = new Group();
 
   //ball sprite
   ball = createSprite(150, 250, 15, 15);
