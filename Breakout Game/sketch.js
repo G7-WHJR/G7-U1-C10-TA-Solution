@@ -1,14 +1,14 @@
-var paddle, ball;
-var edgeTop, edgeBottom, edgeLeft, edgeRight;
-var bricks;
+var paddle,ball,points;
+var edgeT,edgeR, edgeB,edgeL;
 
 function setup() {
   createCanvas(450, 400);
 
+  points = 0;
+
   //paddle sprite
-  paddle = createSprite(200, 380, 100, 5);
+  paddle = createSprite(280, 380, 100, 5);
   paddle.shapeColor = "black";
-  paddle.immovable = true;
 
   bricks = new Group();
 
@@ -17,32 +17,26 @@ function setup() {
   ball.shapeColor = "orange";
 
   //Top edge
-  edgeTop = createSprite(225, 0, 450, 5);
-  edgeTop.shapeColor = "gray";
-  edgeTop.immovable = true;
+  edgeT = createSprite(225, 0, 450, 5);
+  edgeT.shapeColor = "gray";
 
   //Bottom edge
-  edgeBottom = createSprite(225, 400, 450, 5);
-  edgeBottom.shapeColor = "gray";
-  edgeBottom.immovable = true;
+  edgeB = createSprite(225, 400, 450, 5);
+  edgeB.shapeColor = "gray";
 
   //Left edge
-  edgeLeft = createSprite(0, 200, 5, 400);
-  edgeLeft.shapeColor = "gray";
-  edgeLeft.immovable = true;
+  edgeL = createSprite(0, 200, 5, 400);
+  edgeL.shapeColor = "gray";
 
   //Right edge
-  edgeRight = createSprite(450, 200, 5, 400);
-  edgeRight.shapeColor = "gray";
-  edgeRight.immovable = true;
+  edgeR = createSprite(450, 200, 5, 400);
+  edgeR.shapeColor = "gray";
 
   //draw bricks
   function createBrickRow(y) {
     for (var x = 55; x < 400; x = x + 55) {
       var brick = createSprite(x, y, 50, 20);
       brick.shapeColor = "brown";
-      brick.immovable = true;
-      bricks.add(brick);
     }
   }
 
@@ -57,25 +51,19 @@ function setup() {
 function draw() {
   background("honeydew");
 
-  paddle.position.x = mouseX;
+  paddle.x = mouseX;
 
   if (mouseIsPressed) {
-    ball.velocity.x = 1; // Left or Right
-    ball.velocity.y = 1; // Top to Bottom
-    ball.setSpeed(4);
+    ball.velocityX = 4; 
+    ball.velocityY = 4; 
   }
 
-  ball.bounce(edgeLeft);
-  ball.bounce(edgeRight);
-  ball.bounce(edgeBottom);
-  ball.bounce(edgeTop);
-  ball.bounce(paddle);
-
-  ball.bounce(bricks, brickHit);
-
+  ball.bounceOff(edgeL);
+  ball.bounceOff(edgeR);
+  ball.bounceOff(edgeT);
+  ball.bounceOff(edgeB);
+  ball.bounceOff(paddle);
+  
   drawSprites();
 }
 
-function brickHit(ball, brick) {
-  brick.remove();
-}
